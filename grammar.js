@@ -146,20 +146,22 @@ module.exports = grammar({
         ),
         parameter: $ => seq(
             $.identifier,
-            optional(seq(':', $.type)),
             optional('?'),
+            optional(seq(':', $.type)),
         ),
         flag: $ => seq(
+            '--',
             $.flag_name,
             optional(
-                seq('(', $.flag_shorthand_name, ')')
+                seq('(-', $.flag_shorthand_name, ')')
             ),
             optional(seq(':', $.type)),
         ),
-        flag_name: $ => /--[a-zA-Z_]+[a-zA-Z_0-9]*/,
-        flag_shorthand_name: $ => /-[a-zA-Z0-9]/,
+        flag_name: $ => /[a-zA-Z_]+[a-zA-Z_0-9]*/,
+        flag_shorthand_name: $ => /[a-zA-Z0-9]/,
         rest: $ => seq(
-            '...rest',
+            '...',
+            $.identifier,
             optional(seq(':', $.type)),
         ),
         type: $ => choice(
